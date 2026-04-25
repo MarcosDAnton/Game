@@ -1,11 +1,393 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio de Games</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PORTFOLIO DEV. GAME</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            orbitron: ['Orbitron', 'sans-serif'],
+            rajdhani: ['Rajdhani', 'sans-serif'],
+          },
+          colors: {
+            neon: {
+              yellow: '#ffe600',
+              amber:  '#ffb300',
+              orange: '#ff6b00',
+            },
+            dark: {
+              900: '#0a0800',
+              800: '#100e00',
+              700: '#1a1400',
+              600: '#221c00',
+            }
+          },
+          boxShadow: {
+            neon:        '0 0 10px #ffe600, 0 0 40px #ffe60033',
+            'neon-amber':'0 0 10px #ffb300, 0 0 40px #ffb30033',
+            'neon-orange': '0 0 10px #ff6b00, 0 0 40px #ff6b0033',
+          },
+          keyframes: {
+            'scan': { '0%,100%': { backgroundPosition: '0 0' }, '50%': { backgroundPosition: '0 100%' } },
+            'flicker': { '0%,100%': { opacity:'1' }, '50%': { opacity:'.85' } },
+            'float':   { '0%,100%': { transform:'translateY(0px)' }, '50%': { transform:'translateY(-12px)' } },
+            'pulse-neon': { '0%,100%': { boxShadow:'0 0 8px #ffe600, 0 0 20px #ffe60055' }, '50%': { boxShadow:'0 0 20px #ffe600, 0 0 60px #ffe60088' } },
+            'glitch': {
+              '0%,100%': { textShadow:'2px 0 #ff6b00, -2px 0 #ffe600' },
+              '33%':     { textShadow:'-2px 0 #ff6b00,  2px 0 #ffe600' },
+              '66%':     { textShadow:' 2px 2px #ff6b00, -2px -2px #ffe600' },
+            },
+          },
+          animation: {
+            scan:         'scan 8s ease-in-out infinite',
+            flicker:      'flicker 3s ease-in-out infinite',
+            float:        'float 4s ease-in-out infinite',
+            'pulse-neon': 'pulse-neon 2s ease-in-out infinite',
+            glitch:       'glitch 2.5s ease-in-out infinite',
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* scanline overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,230,0,.03) 2px, rgba(255,230,0,.03) 4px);
+    }
+    /* custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0a0800; }
+    ::-webkit-scrollbar-thumb { background: #ffe60066; border-radius: 3px; }
+
+    /* carousel track */
+    .carousel-track { display: flex; transition: transform .5s cubic-bezier(.77,0,.18,1); }
+
+    /* card glow on hover */
+    .game-card:hover .card-glow { opacity: 1; }
+    .card-glow { opacity: 0; transition: opacity .4s; }
+
+    /* noise texture */
+    .noise::after {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+      opacity: .4;
+    }
+  </style>
 </head>
-<body>
-    
+
+<body class="bg-dark-900 text-white font-rajdhani overflow-x-hidden">
+
+  <!-- ░░░ HERO ░░░ -->
+  <section class="relative min-h-screen flex flex-col items-center justify-center noise overflow-hidden">
+
+    <!-- grid bg -->
+    <div class="absolute inset-0"
+         style="background-image: linear-gradient(rgba(255,230,0,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,230,0,.07) 1px,transparent 1px);background-size:60px 60px;">
+    </div>
+    <!-- radial glow center -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full"
+         style="background:radial-gradient(circle, rgba(255,230,0,.12) 0%, transparent 70%); pointer-events:none;">
+    </div>
+
+    <!-- decorative corner lines -->
+    <div class="absolute top-8 left-8 w-16 h-16 border-t-2 border-l-2 border-neon-yellow opacity-60"></div>
+    <div class="absolute top-8 right-8 w-16 h-16 border-t-2 border-r-2 border-neon-yellow opacity-60"></div>
+    <div class="absolute bottom-8 left-8 w-16 h-16 border-b-2 border-l-2 border-neon-yellow opacity-60"></div>
+    <div class="absolute bottom-8 right-8 w-16 h-16 border-b-2 border-r-2 border-neon-yellow opacity-60"></div>
+
+    <div class="relative z-10 text-center px-6 max-w-4xl">
+      <!-- tag line -->
+      <p class="font-orbitron text-neon-yellow text-xs tracking-[0.4em] uppercase mb-6 animate-flicker">
+        &lt; PORTFOLIO DEV. GAME /&gt;
+      </p>
+
+      <!-- main title -->
+      <h1 class="font-orbitron font-black text-5xl md:text-8xl leading-none mb-4 animate-glitch"
+          style="text-shadow: 3px 0 #000000, -3px 0 #ffe600;">
+        GAME<br>
+        <span class="text-neon-yellow" style="text-shadow:0 0 30px #ffe600;">PROJECTS</span>
+      </h1>
+
+      <p class="font-rajdhani text-lg md:text-2xl text-slate-300 tracking-widest mt-6 mb-10 font-light">
+        Desenvolvedor de Games
+      </p>
+
+      <!-- status bar -->
+      <div class="flex items-center justify-center gap-4 mb-10">
+        <span class="w-2 h-2 rounded-full bg-neon-amber animate-pulse"></span>
+        <span class="font-orbitron text-xs text-neon-amber tracking-widest">STATUS: <span style="color: green;">ONLINE</span></span>
+        <span class="w-2 h-2 rounded-full bg-neon-amber animate-pulse"></span>
+      </div>
+
+      <a href="#projects"
+         class="inline-block font-orbitron text-sm tracking-widest px-10 py-4 border border-neon-yellow text-neon-yellow uppercase
+                hover:bg-neon-yellow hover:text-dark-900 transition-all duration-300 animate-pulse-neon">
+        Ver Projetos ↓
+      </a>
+    </div>
+
+    <!-- floating pixel deco -->
+    <div class="absolute bottom-32 left-16 w-3 h-3 bg-neon-orange animate-float opacity-70"></div>
+    <div class="absolute top-40 right-20 w-2 h-2 bg-neon-yellow animate-float opacity-60" style="animation-delay:.8s"></div>
+    <div class="absolute top-1/3 left-10 w-1.5 h-1.5 bg-neon-yellow animate-float opacity-50" style="animation-delay:1.5s"></div>
+  </section>
+
+  <!-- ░░░ PROJECTS CAROUSEL ░░░ -->
+  <section id="projects" class="relative py-24 px-6 bg-dark-800 noise overflow-hidden">
+
+    <div class="absolute inset-0"
+         style="background: linear-gradient(180deg, #0a0800 0%, #100e00 50%, #0a0800 100%); pointer-events:none;">
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto">
+
+      <!-- section header -->
+      <div class="mb-16 text-center">
+        <p class="font-orbitron text-neon-yellow text-xs tracking-[0.5em] uppercase mb-3">// PROJETOS</p>
+        <h2 class="font-orbitron font-bold text-4xl md:text-6xl"
+            style="text-shadow: 0 0 30px rgba(0, 0, 0, 0.4);">
+          PROJETOS
+        </h2>
+        <div class="mt-4 flex items-center justify-center gap-2">
+          <div class="h-px w-24 bg-gradient-to-r from-transparent to-neon-yellow"></div>
+          <div class="w-2 h-2 rotate-45 bg-neon-yellow"></div>
+          <div class="h-px w-24 bg-gradient-to-l from-transparent to-neon-yellow"></div>
+        </div>
+      </div>
+
+      <!-- carousel wrapper -->
+      <div class="relative" id="carouselWrapper">
+
+        <!-- prev btn -->
+        <button id="prevBtn"
+                class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20
+                       w-12 h-12 border border-neon-yellow text-neon-yellow
+                       flex items-center justify-center
+                       hover:bg-neon-yellow hover:text-dark-900 transition-all duration-200
+                       font-orbitron text-lg shadow-neon">
+          ‹
+        </button>
+
+        <!-- next btn -->
+        <button id="nextBtn"
+                class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20
+                       w-12 h-12 border border-neon-yellow text-neon-yellow
+                       flex items-center justify-center
+                       hover:bg-neon-yellow hover:text-dark-900 transition-all duration-200
+                       font-orbitron text-lg shadow-neon">
+          ›
+        </button>
+
+        <!-- overflow clip -->
+        <div class="overflow-hidden mx-8" id="carouselViewport">
+          <div class="carousel-track" id="carouselTrack">
+
+            <!-- ── CARD TEMPLATE ─────────────────────────────────────────────
+                 Para adicionar um novo projeto, copie um bloco <div class="game-card ...">
+                 e altere: TITLE, SUBTITLE, DESCRIPTION, TAGS e o href do botão.
+            ──────────────────────────────────────────────────────────────── -->
+
+            <!-- CARD 1 -->
+            <div class="game-card relative flex-shrink-0 w-80 mx-4 group cursor-pointer">
+              <div class="card-glow absolute -inset-px rounded-sm bg-gradient-to-b from-neon-yellow/30 to-transparent pointer-events-none"></div>
+              <div class="relative border border-neon-yellow/30 bg-dark-700 group-hover:border-neon-yellow transition-colors duration-300 overflow-hidden">
+
+                <!-- thumbnail placeholder -->
+                <div class="w-full h-48 relative overflow-hidden"
+                     style="background: linear-gradient(135deg, #1a1400 0%, #221c00 50%, #181200 100%);">
+                  <!-- pixel art deco inside thumb -->
+                  <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="font-orbitron text-5xl text-neon-yellow/20 select-none">01</div>
+                  </div>
+                  <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-neon-yellow via-neon-amber to-neon-yellow animate-scan"
+                       style="background-size:200% 100%;"></div>
+                  <!-- replace the div above with an <img src="caminho/thumb.png" class="w-full h-full object-cover"/> -->
+                </div>
+
+                <div class="p-6">
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="font-orbitron text-xs text-neon-yellow tracking-widest">PROJETO 01</span>
+                    <span class="w-2 h-2 rounded-full bg-neon-amber animate-pulse"></span>
+                  </div>
+                  <h3 class="font-orbitron font-bold text-xl text-white mb-1 group-hover:text-neon-yellow transition-colors">
+                    DevWorld
+                  </h3>
+                  <p class="font-rajdhani text-slate-400 text-sm mb-4 leading-relaxed">
+                    Bem-vindo ao DevWorld Project! Torne-se um Dev de "Extends" e seja mestre de "Drivers" lendários eles enquanto luta com os "Viwers" para restaurar a ordem do mundo. Enfrente essas criaturas hostis nas "Window Rifts", detenha as "Raids" nos distritos e suba nos "Ranks A-Z", e desenvolva habilidades e jogabilidades únicas enquanto aproveita a viagem entre as "Droid Rifts" dos distritos e continentes.
+                  <!-- tags -->
+                  <div class="flex flex-wrap gap-2 mb-5">
+                    <span class="font-orbitron text-xs px-2 py-1 border border-neon-yellow/40 text-neon-yellow/70">Roblox Studio</span>
+                  </div>
+                  <!-- link button — substitua # pelo link real -->
+                  <a href="#"
+                     class="block text-center font-orbitron text-xs tracking-widest py-3 border border-neon-yellow/50 text-neon-yellow/70
+                            hover:border-neon-yellow hover:text-neon-yellow hover:shadow-neon transition-all duration-300">
+                    ACESSAR PROJETO →
+                  </a>
+                </div>
+              </div>
+            </div>
+
+       
+           
+
+         
+
+          
+          </div><!-- /track -->
+        </div><!-- /viewport -->
+      </div><!-- /wrapper -->
+
+      <!-- dots -->
+      <div class="flex justify-center gap-3 mt-10" id="dotsContainer"></div>
+
+    </div>
+  </section>
+
+  <!-- ░░░ ABOUT ░░░ -->
+  <section class="py-24 px-6 bg-dark-900 relative noise overflow-hidden">
+    <div class="absolute inset-0"
+         style="background:radial-gradient(ellipse at 50% 50%, rgba(255,230,0,.05) 0%, transparent 70%); pointer-events:none;">
+    </div>
+    <div class="relative z-10 max-w-4xl mx-auto text-center">
+      <p class="font-orbitron text-neon-yellow text-xs tracking-[0.5em] uppercase mb-4">// SOBRE</p>
+      <h2 class="font-orbitron font-bold text-4xl md:text-5xl mb-8"
+          style="text-shadow:0 0 20px rgba(255,230,0,.3);">
+        PLAYER.EXE
+      </h2>
+      <p class="font-rajdhani text-slate-300 text-xl leading-relaxed mb-10">
+        Desenvolvedor de Software em ascensão para nível pleno, com especialização em
+        <span class="text-neon-yellow font-semibold">Design 3D</span> e desenvolvimento de games.
+        Cada projeto é uma nova fase — novos desafios, novas mecânicas, novas conquistas.
+      </p>
+      <!-- stats row -->
+      <div class="grid grid-cols-3 gap-6 border border-neon-yellow/20 p-8"
+           style="background: linear-gradient(135deg, rgba(255,230,0,.03) 0%, transparent 100%);">
+        <div>
+          <div class="font-orbitron font-black text-3xl text-neon-yellow mb-1">∞</div>
+          <div class="font-rajdhani text-slate-400 text-sm tracking-widest uppercase">Projetos futuros</div>
+        </div>
+        <div class="border-x border-neon-yellow/20">
+          <div class="font-orbitron font-black text-3xl text-neon-orange mb-1">↑</div>
+          <div class="font-rajdhani text-slate-400 text-sm tracking-widest uppercase">Nível crescendo</div>
+        </div>
+        <div>
+          <div class="font-orbitron font-black text-3xl text-neon-amber mb-1">ON</div>
+          <div class="font-rajdhani text-slate-400 text-sm tracking-widest uppercase">Status ativo</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ CONTACT ░░░ -->
+  <section class="py-20 px-6 bg-dark-800 border-t border-neon-yellow/10">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="font-orbitron text-neon-yellow text-xs tracking-[0.5em] uppercase mb-4">// CONTATO</p>
+      <h2 class="font-orbitron font-bold text-3xl md:text-4xl mb-8">INICIAR CONEXÃO</h2>
+      <div class="flex flex-wrap justify-center gap-4">
+        
+        <a href="https://www.roblox.com/users/289692782/profile" target="_blank" class="font-orbitron text-xs tracking-widest px-8 py-4 border border-neon-cyan text-neon-cyan
+                           hover:bg-neon-cyan hover:text-cyan-900 transition-all duration-300 shadow-neon-cyan">
+          ROBLOX
+        </a>
+       
+        <a href="https://makiid.itch.io/" class="font-orbitron text-xs tracking-widest px-8 py-4 border border-neon-red text-neon-red
+                           hover:bg-neon-red hover:text-red-900 transition-all duration-300 shadow-neon-red">
+          ITCH.IO
+        </a>
+
+         <a href="https://www.linkedin.com/in/marcos-antonio-d-silva-pereira-843446402/" target="_blank" class="font-orbitron text-xs tracking-widest px-8 py-4 border border-neon-blue text-neon-blue
+                           hover:bg-neon-blue hover:text-blue-900 transition-all duration-300 shadow-neon-blue">
+          LINKEDIN
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ FOOTER ░░░ -->
+  <footer class="py-6 px-6 bg-dark-900 border-t border-neon-yellow/10 text-center">
+    <p class="font-orbitron text-xs text-slate-600 tracking-widest">
+      © 2026 — PORTFOLIO DEV. GAME — BUILD v1.0.0
+    </p>
+  </footer>
+
+  <!-- ░░░ CAROUSEL SCRIPT ░░░ -->
+  <script>
+    const track    = document.getElementById('carouselTrack');
+    const viewport = document.getElementById('carouselViewport');
+    const prevBtn  = document.getElementById('prevBtn');
+    const nextBtn  = document.getElementById('nextBtn');
+    const dotsEl   = document.getElementById('dotsContainer');
+
+    const cards       = track.querySelectorAll('.game-card');
+    const cardWidth   = () => cards[0].offsetWidth + 32; // 32 = mx-4*2
+    const visibleCount = () => Math.floor(viewport.offsetWidth / cardWidth());
+    const maxIndex     = () => Math.max(0, cards.length - visibleCount());
+
+    let current = 0;
+
+    // build dots
+    function buildDots() {
+      dotsEl.innerHTML = '';
+      const total = maxIndex() + 1;
+      for (let i = 0; i < total; i++) {
+        const d = document.createElement('button');
+        d.className = `w-2 h-2 transition-all duration-300 ${i === current
+          ? 'bg-neon-yellow scale-125 shadow-neon'
+          : 'bg-slate-600 hover:bg-slate-400'}`;
+        d.addEventListener('click', () => goTo(i));
+        dotsEl.appendChild(d);
+      }
+    }
+
+    function updateDots() {
+      dotsEl.querySelectorAll('button').forEach((d, i) => {
+        d.className = `w-2 h-2 transition-all duration-300 ${i === current
+          ? 'bg-neon-yellow scale-125 shadow-neon'
+          : 'bg-slate-600 hover:bg-slate-400'}`;
+      });
+    }
+
+    function goTo(index) {
+      current = Math.max(0, Math.min(index, maxIndex()));
+      track.style.transform = `translateX(-${current * cardWidth()}px)`;
+      updateDots();
+      prevBtn.style.opacity = current === 0 ? '.3' : '1';
+      nextBtn.style.opacity = current >= maxIndex() ? '.3' : '1';
+    }
+
+    prevBtn.addEventListener('click', () => goTo(current - 1));
+    nextBtn.addEventListener('click', () => goTo(current + 1));
+
+    // keyboard nav
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft')  goTo(current - 1);
+      if (e.key === 'ArrowRight') goTo(current + 1);
+    });
+
+    // touch / swipe
+    let touchStartX = 0;
+    viewport.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    viewport.addEventListener('touchend',   e => {
+      const dx = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(dx) > 40) goTo(current + (dx > 0 ? 1 : -1));
+    });
+
+    // init & resize
+    function init() { buildDots(); goTo(0); }
+    window.addEventListener('resize', () => { buildDots(); goTo(Math.min(current, maxIndex())); });
+    init();
+  </script>
+
 </body>
 </html>
