@@ -18,7 +18,7 @@
           },
           colors: {
             neon: {
-              yellow: '#ffe600',
+              yellow: 'gold',
               amber:  '#ffb300',
               orange: '#ff6b00',
             },
@@ -30,7 +30,7 @@
             }
           },
           boxShadow: {
-            neon:        '0 0 10px #ffe600, 0 0 40px #ffe60033',
+            neon:        '0 0 10px gold, 0 0 40px gold33',
             'neon-amber':'0 0 10px #ffb300, 0 0 40px #ffb30033',
             'neon-orange': '0 0 10px #ff6b00, 0 0 40px #ff6b0033',
           },
@@ -38,11 +38,11 @@
             'scan': { '0%,100%': { backgroundPosition: '0 0' }, '50%': { backgroundPosition: '0 100%' } },
             'flicker': { '0%,100%': { opacity:'1' }, '50%': { opacity:'.85' } },
             'float':   { '0%,100%': { transform:'translateY(0px)' }, '50%': { transform:'translateY(-12px)' } },
-            'pulse-neon': { '0%,100%': { boxShadow:'0 0 8px #ffe600, 0 0 20px #ffe60055' }, '50%': { boxShadow:'0 0 20px #ffe600, 0 0 60px #ffe60088' } },
+            'pulse-neon': { '0%,100%': { boxShadow:'0 0 8px gold, 0 0 20px gold55' }, '50%': { boxShadow:'0 0 20px gold, 0 0 60px gold88' } },
             'glitch': {
-              '0%,100%': { textShadow:'2px 0 #ff6b00, -2px 0 #ffe600' },
-              '33%':     { textShadow:'-2px 0 #ff6b00,  2px 0 #ffe600' },
-              '66%':     { textShadow:' 2px 2px #ff6b00, -2px -2px #ffe600' },
+              '0%,100%': { textShadow:'2px 0 #ff6b00, -2px 0 gold' },
+              '33%':     { textShadow:'-2px 0 #ff6b00,  2px 0 gold' },
+              '66%':     { textShadow:' 2px 2px #ff6b00, -2px -2px gold' },
             },
           },
           animation: {
@@ -67,7 +67,7 @@
     /* custom scrollbar */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #0a0800; }
-    ::-webkit-scrollbar-thumb { background: #ffe60066; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb { background: gold66; border-radius: 3px; }
 
     /* carousel track */
     .carousel-track { display: flex; transition: transform .5s cubic-bezier(.77,0,.18,1); }
@@ -110,9 +110,9 @@
     
       <!-- main title -->
       <h1 class="font-orbitron font-black text-5xl md:text-8xl leading-none mb-4 animate-glitch"
-          style="text-shadow: 3px 0 #000000, -3px 0 #ffe600;">
+          style="text-shadow: 3px 0 #000000, -3px 0 gold;">
         GAME<br>
-        <span class="text-neon-yellow" style="text-shadow:0 0 30px #ffe600;">PROJECTS</span>
+        <span class="text-neon-yellow" style="text-shadow:0 0 30px gold;">PROJECTS</span>
       </h1>
 
       <a href="#projects"
